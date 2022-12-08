@@ -1,0 +1,59 @@
+<?php
+    require_once __DIR__ . "/php/DBconnect.php";
+    require_once __DIR__ . "/php/TBL_User.php";
+    // DBに接続処理を読み込み
+    $pdo = DBconnect::connect_db();
+    // userテーブルをidで検索
+    $user = TBL_User::selectUser($pdo, 1001);
+
+    // ユーザーオブジェクトをログインユーザーとしてsessionに登録する
+    // 一度サーバーアプリの外へ出るので、直列化（シリアライズ）して登録
+    if (session_status() == PHP_SESSION_NONE) {
+        // セッションは有効で、開始していないとき
+        session_start();
+    }
+
+    $_SESSION['login_user'] = serialize($user);
+    
+    // // userテーブルを全件検索
+    // $users = TBL_User::selectUsers($pdo);
+    // // ユーザーリストも登録
+    // $_SESSION['user_list'] = serialize($users);
+?>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン</title>
+    
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<link rel="stylesheet" href="./css/myStyle.css" type="text/css">
+<!-- JavaScript Bundle with Popper -->
+<script src="htclass="row align-items-stretch"tps://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+</head>
+<body>
+<!-- ヘッダー部分 -->
+<?php  require_once __DIR__ . "/login.html";?>
+
+<!-- 商品一覧部分 -->
+<div id="chg_zone">
+    <div id="main_list">
+        <?php require_once __DIR__ . "/itemlist.html";?>
+    </div>
+</div>
+
+<div id="javascript_footer">
+    <!-- <a href="./grid.html">grid操作へ</a> -->
+    <!-- <script type="text/javascript" src="./js/cart.js"></script> -->
+    <script type="text/javascript" src="./js/common_footer.js"></script>
+    <div class="container">
+        <div class="row text-primary fs-3 bg-warning" id="copyright">
+            <div class="text-end">2022 SD2</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

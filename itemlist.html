@@ -1,0 +1,94 @@
+<?php
+    require_once __DIR__ . "/php/DBconnect.php";
+    require_once __DIR__ . "/php/TBL_Items.php";
+    require_once __DIR__ . "/php/TBL_Cart.php";
+    // DBに接続処理を読み込み
+    $pdo = DBconnect::connect_db();
+
+    // itemsテーブルを全件検索
+    $items = TBL_Items::selectAll($pdo);
+
+    // user情報オブジェクトをセッションから取得
+    if (session_status() == PHP_SESSION_NONE) {
+        // セッションは有効で、開始していないとき
+        session_start();
+    }
+    $user = $_SESSION['login_user'];
+    $user = unserialize($user);
+
+    // Testクラスのインスタンスを生成
+    // require_once __DIR__ . "/php/Test.php";
+    // $test = new Test(); 
+
+?>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アイテムリスト</title>
+    
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<link rel="stylesheet" href="./css/myStyle.css" type="text/css">
+<!-- JavaScript Bundle with Popper -->
+<script src="htclass="row align-items-stretch"tps://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<!-- 商品一覧 -->
+    <div class="container">
+    <div class="row">
+    <h1 id="title_itemlist">商品一覧</h1>
+    </div>
+    <!-- JavaScript -->
+    <script type="text/javascript" async>
+        function btn_add_cart_on_click(e){
+            let targetNode = e.currentTarget; // clickした要素を取得(今は使わない)
+
+            let userid = this.userid;
+            let itemid = this.itemid;
+
+            let action =  './php/TBL_Cart.php';
+            let dataObject = { 'mode':'<?= TBL_Cart::POST_INSERT_CART ?>','userid':userid, 'itemid':itemid };
+            // alert('userid='+userid+" "+'itemid='+itemid);
+
+            // サーバへポスト送信&カート表示も更新する
+            let divCartBtn = document.getElementById('divCartBtn');
+            let rt = execPostAsync(action, dataObject, divCartBtn);
+
+            // 以下のループで使う変数(変更禁止)
+            let val_id=-1;
+        }
+    </script>
+    <?php
+        $btn_cnt=0;
+        foreach($items as $item){
+    ?>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="row-sm-8">商品名: <?= $item->name; ?></div>
+                <div class="row-sm-2">価格: <?= number_format($item->price)."円"; ?></div>
+                <div class="row-sm-2">
+                    <input class="btn btn-primary btn-sm" id="btn_add_cart<?= ++$btn_cnt; ?>" type="button" value="カートに追加">
+                    <!--  -->
+                    <script type="text/javascript" >
+                        val_id = "btn_add_cart<?= $btn_cnt; ?>";
+                        // dataObject = {'method':'POST', 'item_id':{<?= $item->id; ?>}, 'user_id':{<?= $item->id; ?>}};
+                        document.getElementById(val_id)
+                        .addEventListener("click",{method:"POST", userid:<?= $user->id ?>, itemid:<?= $item->id ?>, handleEvent:btn_add_cart_on_click},false);
+                        // .addEventListener("click",{method:"POST", arg01:val_id, handleEvent:doExecPost},false);
+                        </script>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="row"><img src="./image/<?= $item->image; ?>" class="img-fluid" > </div>
+            </div>
+        </div>
+    <?php
+        }
+    ?>
+    </div>
+    <script type="text/javascript" src="./js/post.js"></script>
+</body>
+</html>

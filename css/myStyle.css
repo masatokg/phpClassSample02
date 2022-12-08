@@ -1,0 +1,115 @@
+.container{
+    background-color:aliceblue;
+    /* padding-right: 40rem;
+    padding-left: 40rem; */
+    max-width: 60%;
+}
+.container-lg{
+    background-color:rgb(218, 251, 51);
+    /* padding-right: 40rem;
+    padding-left: 40rem; */
+    /* max-width: 30%; */
+}
+#login_input{
+    text-align: left;
+    max-height: 100%;
+    /* margin-left: 1rem; */
+    max-width: 60%;
+    color:honeydew;			/* 見出しテキストの色を指定する */
+    background-color:rgb(10, 65, 113);
+    padding: 0.1rem;
+    font-size: 50%;
+}
+.showCartBtn{
+    max-width:10px;
+}
+.form-group{
+    padding: 10px;
+}
+.row{
+    padding: 10px;
+}
+.col-md-4{
+    padding-right: 15px;
+    padding-left: 15px;
+}
+body {
+	margin: 0;
+	padding: 20px;
+	font-family: "メイリオ", Meiryo, sans-serif;
+	font-size: 150%;
+    background-color:#326693;
+}
+h1 {
+    color:rgb(18, 6, 255);			/* 見出しテキストの色を指定する */
+    padding-left:10px;		/* ボックス内左側の余白を指定する */
+    border-left: 10px solid #31a9ee;	/* ボーダー左側のスタイルを指定する */
+    border-bottom: 1px dashed #31a9ee; 	/* ボーダー下部のスタイルを指定する */
+}
+#title_itemlist{
+    font-family:monospace;
+}
+a {
+	font-family: "メイリオ", Meiryo, sans-serif;
+	font-size: 100%;
+    color: bisque;
+    text-decoration: none;
+    /* background-color:#f9f21c; */
+}
+
+/* button {
+	appearance: none;
+	margin: 0;
+	padding: 0;
+	background: none;
+	border: none;
+	border-radius: 0;
+	outline: none;
+} */
+a {
+	margin:0;
+	padding:0;
+	font-size:100%;
+	vertical-align:baseline;
+	background:transparent;
+	text-decoration: none;
+}
+
+.btn_main {
+    position: relative;
+    display: block;
+    padding: 1em 2em 1em 1em;
+    /* margin: 1em; */
+    width: 10rem;
+    font-size: 1rem;
+    color: #fff;
+    text-align: center;
+    line-height: 1;
+    /* background: #5bbee5; */
+    background: linear-gradient(to right, #05aff2, #5259dd);
+    text-indent: 0.1em;
+    letter-spacing: 0.1em;
+    border-radius: 1em;
+    box-sizing:border-box;
+    cursor:pointer;
+}
+
+.btn_main:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 1.5em;
+  margin: auto;
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  border-right: 1px solid #fff;
+  border-top: 1px solid #fff;
+  transform: rotate(45deg);
+  transition: right 0.5s;
+}
+
+.btn_main:hover:after{
+  right: 1em;
+}
